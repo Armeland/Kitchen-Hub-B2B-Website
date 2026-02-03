@@ -67,7 +67,7 @@ export default function Home() {
         .subscribe()
 
       return () => {
-        supabase.removeChannel(channel)
+        supabase?.removeChannel(channel)
       }
     }
   }, [])
