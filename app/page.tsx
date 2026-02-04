@@ -32,6 +32,7 @@ export default function Home() {
             logoUrl: data.logo_url || defaultSettings.logoUrl,
             overlayText: data.overlay_text || defaultSettings.overlayText,
             buttons: data.buttons || defaultSettings.buttons,
+            contactFormUrl: data.contact_form_url || defaultSettings.contactFormUrl,
           })
         }
       } catch (error) {
@@ -60,6 +61,7 @@ export default function Home() {
                 logoUrl: (data.logo_url as string) || defaultSettings.logoUrl,
                 overlayText: (data.overlay_text as string) || defaultSettings.overlayText,
                 buttons: (data.buttons as typeof defaultSettings.buttons) || defaultSettings.buttons,
+                contactFormUrl: (data.contact_form_url as string) || defaultSettings.contactFormUrl,
               })
             }
           }
@@ -94,7 +96,7 @@ export default function Home() {
       <TextOverlay text={settings.overlayText} />
 
       {/* Action Buttons - Bottom Right */}
-      <ActionButtons buttons={settings.buttons} />
+      <ActionButtons buttons={settings.buttons} contactFormUrl={settings.contactFormUrl} />
     </main>
   )
 }

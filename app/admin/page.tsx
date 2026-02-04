@@ -54,6 +54,7 @@ export default function AdminPanel() {
             logoUrl: data.logo_url || defaultSettings.logoUrl,
             overlayText: data.overlay_text || defaultSettings.overlayText,
             buttons: data.buttons || defaultSettings.buttons,
+            contactFormUrl: data.contact_form_url || defaultSettings.contactFormUrl,
           })
         }
       } catch (error) {
@@ -89,6 +90,7 @@ export default function AdminPanel() {
         logo_url: settings.logoUrl,
         overlay_text: settings.overlayText,
         buttons: settings.buttons,
+        contact_form_url: settings.contactFormUrl,
       }
 
       if (existingData) {
@@ -343,6 +345,22 @@ export default function AdminPanel() {
                 </div>
               ))}
             </div>
+          </section>
+
+          {/* Contact Form */}
+          <section className="bg-white rounded-xl shadow-lg p-6">
+            <h2 className="text-lg font-bold text-moss mb-4 border-b border-moss/10 pb-2">
+              Contact Us Button
+            </h2>
+            <p className="text-seaweed/60 text-sm mb-4">
+              A &quot;Contact Us&quot; button will appear after your other buttons. Paste your Google Form URL below.
+            </p>
+            <TextEditor
+              label="Google Form URL"
+              value={settings.contactFormUrl}
+              onChange={(url) => setSettings({ ...settings, contactFormUrl: url })}
+              placeholder="https://docs.google.com/forms/d/e/..."
+            />
           </section>
 
           {/* Supabase Notice */}

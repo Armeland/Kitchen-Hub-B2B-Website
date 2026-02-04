@@ -8,48 +8,90 @@ import Link from 'next/link'
 
 export default function LocationsPage() {
   const [locations, setLocations] = useState<Location[]>([])
+  const [contactFormUrl, setContactFormUrl] = useState('')
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const fetchLocations = async () => {
+    const fetchData = async () => {
       if (!supabase) {
         setLoading(false)
         return
       }
 
       try {
-        const { data, error } = await supabase
+        // Fetch locations
+        const { data: locationsData, error: locationsError } = await supabase
           .from('locations')
           .select('*')
           .order('created_at', { ascending: true })
 
-        if (data && !error) {
-          setLocations(data)
+        if (locationsData && !locationsError) {
+          setLocations(locationsData)
+        }
+
+        // Fetch contact form URL from settings
+        const { data: settingsData } = await supabase
+          .from('site_settings')
+          .select('contact_form_url')
+          .single()
+
+        if (settingsData?.contact_form_url) {
+          setContactFormUrl(settingsData.contact_form_url)
         }
       } catch (error) {
-        console.error('Error fetching locations:', error)
+        console.error('Error fetching data:', error)
       } finally {
         setLoading(false)
       }
     }
 
-    fetchLocations()
+    fetchData()
   }, [])
 
   return (
     <div className="min-h-screen bg-cream">
       {/* Header */}
       <header className="bg-moss text-cream py-6 px-6 shadow-lg">
-        <div className="max-w-6xl mx-auto relative">
+        <div className="max-w-6xl mx-auto relative flex items-center justify-between">
           <Link
             href="/"
-            className="absolute left-0 top-1/2 -translate-y-1/2 text-cream/80 hover:text-cream transition-colors text-sm md:text-base"
+            className="text-cream/80 hover:text-cream transition-colors text-sm md:text-base"
           >
             ← Back to Home
           </Link>
-          <h1 className="text-2xl md:text-3xl font-bold text-center">Our Locations</h1>
+          <h1 className="text-2xl md:text-3xl font-bold text-center absolute left-1/2 -translate-x-1/2">Our Locations</h1>
+          {contactFormUrl && (
+            <a
+              href={contactFormUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-mint hover:bg-jade text-moss font-semibold px-4 py-2 rounded-full transition-colors text-sm"
+            >
+              Contact Us
+            </a>
+          )}
         </div>
       </header>
+
+      {/* Sub Banner */}
+      <div className="bg-jade/20 py-4 px-6">
+        <div className="max-w-6xl mx-auto text-center">
+          {contactFormUrl ? (
+            <a
+              href={contactFormUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-moss font-medium text-lg hover:text-jade transition-colors underline"
+            >
+              Contact us for more information
+            </a>
+          ) : (
+            <p className="text-moss font-medium text-lg">
+              Contact us for more information
+            </p>
+          )}
+        </div>
+      </div>
 
       {/* Main Content */}
       <main className="max-w-6xl mx-auto py-8 px-4 md:px-6">

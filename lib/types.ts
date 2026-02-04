@@ -27,6 +27,7 @@ export interface SiteSettings {
   logoUrl: string
   overlayText: string
   buttons: ButtonConfig[]
+  contactFormUrl: string
 }
 
 export const defaultSettings: SiteSettings = {
@@ -38,8 +39,8 @@ export const defaultSettings: SiteSettings = {
   buttons: [
     { text: 'How Kitchen Hub Works', link: '/how-it-works' },
     { text: 'Locations', link: '/locations' },
-    { text: 'Contact Us', link: '/contact' },
   ],
+  contactFormUrl: '',
 }
 
 export const availableFonts = [
